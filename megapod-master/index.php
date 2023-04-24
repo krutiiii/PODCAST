@@ -1,84 +1,49 @@
+
+<?php 
+  session_start(); 
+
+  if (!isset($_SESSION['username'])) {
+  	$_SESSION['msg'] = "You must log in first";
+  	header('location: login.php');
+  }
+  if (isset($_GET['logout'])) {
+  	session_destroy();
+  	unset($_SESSION['username']);
+  	header("location: login.php");
+  }
+?>
 <!DOCTYPE html>
-<html lang="en">
-
-
-
-
-
-
-
-
+<html>
 <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Megapod Template" />
-    <meta name="keywords" content="Megapod, unica, creative, html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-	<title>audio upload php and mysql</title>
-	<style>
-		body {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-direction: column;
-			min-height: 100vh;
-		}
-		input {
-			font-size: 2rem;
-		}
-		a {
-			text-decoration: none;
-			color: #006CFF;
-			font-size: 1.5rem;
-		}
-		header{
-			background-color: black;
-		}
-
-		/* img {
- 	 max-width: 100%;
-		height: auto;
-		} */
-	</style>
-
-    <!-- Google Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Css Styles -->
-    
-  </head>
-
-  <body>
-    <!-- Page Preloder -->
-    
-
-    <!-- Offcanvas Menu Begin -->
-  
-    <!-- Offcanvas Menu End -->
-
-    <!-- Header Section Begin -->
-    
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
 
 <body>
-	<img src="img/pod.jpg" alt="" style="width:100%;height:500px;">
-	
-	<a href="view.php">audios</a>
-	<?php if (isset($_GET['error'])) {  ?>
-		<p><?=$_GET['error']?></p>
-	<?php } ?>
-	 <form action="upload.php"
-	       method="post"
-	       enctype="multipart/form-data">
 
-	 	<input type="file"
-	 	       name="my_audio">
+<div class="header">
+	<h2>Home Page</h2>
+</div>
+	Welcome to my project page	
+<div class="content">
+  	<!-- notification message -->
+  	<?php if (isset($_SESSION['success'])) : ?>
+      <div class="error success" >
+      	<h3>
+          <?php 
+          	echo $_SESSION['success']; 
+          	unset($_SESSION['success']);
+          ?>
+      	</h3>
+      </div>
+  	<?php endif ?>
 
-	 	<input type="submit"
-	 	       name="submit" 
-	 	       value="Upload">
-	 </form>
+    <!-- logged in user information -->
+    <?php  if (isset($_SESSION['username'])) : ?>
+    	<p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
+    	<p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
+    <?php endif ?>
+</div>
+
 </body>
 </html>
